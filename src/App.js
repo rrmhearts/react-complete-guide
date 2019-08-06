@@ -10,18 +10,31 @@ class App extends Component {
       { name: 'Zoe', age: 29 },
       { name: 'Alice', age: 26 }
     ]
+  } // if changes, rerenders dom
 
+  switchNameHandler = () => {
+    console.log('was clicked!');
+    console.log(this.state.persons, {name:'b',age:5});
+    this.setState( {
+      persons: [
+        ...this.state.persons, {name: 'Bob', age: 50}
+      ]
+    });
   }
+
   render() {
+
+    const items = [];
+
+    for (const [ind, val] of this.state.persons.entries())
+      items.push(<Person key={ind} name={val.name} age={val.age}/>);
     return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <button>Switch Name</button>
-        <Person name="Ryan" age={Math.floor(Math.random() *30)}/>
-        <Person name="Alice" age={Math.floor(Math.random() *30)}/>
-        <Person name="Zoe" age={Math.floor(Math.random() *30)}>My hobby is sports!</Person>
+        <button onClick={this.switchNameHandler}>Switch Name</button>
+        {items}
       </div>
     );
   }
