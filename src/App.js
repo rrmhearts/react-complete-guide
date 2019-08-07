@@ -9,15 +9,22 @@ const app = props => {
       { name: 'Ryan', age: 28 },
       { name: 'Zoe', age: 29 },
       { name: 'Alice', age: 26 }
-    ]
+    ],
+    otherState: "Other"
   }); // returns [current state, function to update state]
 
+  // won't get deleted when updating person.
+  const [otherState, setOtherStates] = useState('some other value');
+
+  console.log(personsState, otherState);
   const switchNameHandler = () => {
-    setPersons( {
+    setPersons( { // REPLACES ALL OF STATE
       persons: [
         { name: 'WENDY', age: 1 },
         { name: 'Zoe', age: 29 },
-        { name: 'Alice', age: 26 }      ]
+        { name: 'Alice', age: 26 }      
+      ],
+        otherState: personsState.otherState
     });
   }
 
