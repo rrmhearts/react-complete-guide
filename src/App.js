@@ -1,9 +1,45 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Person from './components/Person'
 
-class App extends Component {
-  /* only class Components, state reserved word*/
+const app = props => {
+
+  const [personsState, setPersons] = useState({
+    persons: [
+      { name: 'Ryan', age: 28 },
+      { name: 'Zoe', age: 29 },
+      { name: 'Alice', age: 26 }
+    ]
+  }); // returns [current state, function to update state]
+
+  const switchNameHandler = () => {
+    setPersons( {
+      persons: [
+        { name: 'WENDY', age: 1 },
+        { name: 'Zoe', age: 29 },
+        { name: 'Alice', age: 26 }      ]
+    });
+  }
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1 className="App-title">Welcome to React</h1>
+      </header>
+      <button onClick={switchNameHandler}>Switch Name</button>
+      <Person name={personsState.persons[0].name}
+              age={personsState.persons[0].age}/>
+      <Person name={personsState.persons[1].name}
+              age={personsState.persons[1].age}/>
+    </div>
+  );
+  
+}
+
+export default app;
+
+/*
+
   state = {
     persons: [
       { name: 'Ryan', age: 28 },
@@ -21,23 +57,4 @@ class App extends Component {
       ]
     });
   }
-
-  render() {
-
-    const items = [];
-
-    for (const [ind, val] of this.state.persons.entries())
-      items.push(<Person key={ind} name={val.name} age={val.age}/>);
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <button onClick={this.switchNameHandler}>Switch Name</button>
-        {items}
-      </div>
-    );
-  }
-}
-
-export default App;
+  */
