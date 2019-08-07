@@ -1,67 +1,57 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import Person from './components/Person'
-
-const app = props => {
-
-  const [personsState, setPersons] = useState({
-    persons: [
-      { name: 'Ryan', age: 28 },
-      { name: 'Zoe', age: 29 },
-      { name: 'Alice', age: 26 }
-    ],
-    otherState: "Other"
-  }); // returns [current state, function to update state]
-
-  // won't get deleted when updating person.
-  const [otherState, setOtherStates] = useState('some other value');
-
-  console.log(personsState, otherState);
-  const switchNameHandler = () => {
-    setPersons( { // REPLACES ALL OF STATE
-      persons: [
-        { name: 'WENDY', age: 1 },
-        { name: 'Zoe', age: 29 },
-        { name: 'Alice', age: 26 }      
-      ],
-        otherState: personsState.otherState
-    });
-  }
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1 className="App-title">Welcome to React</h1>
-      </header>
-      <button onClick={switchNameHandler}>Switch Name</button>
-      <Person name={personsState.persons[0].name}
-              age={personsState.persons[0].age}/>
-      <Person name={personsState.persons[1].name}
-              age={personsState.persons[1].age}/>
-    </div>
-  );
-  
-}
-
-export default app;
+import Person from './Person/Person';
 
 /*
-
+  Statefull components. Only have the ones you need.
+*/
+class App extends Component {
   state = {
     persons: [
-      { name: 'Ryan', age: 28 },
-      { name: 'Zoe', age: 29 },
-      { name: 'Alice', age: 26 }
-    ]
-  } // if changes, rerenders dom
+      { name: 'Max', age: 28 },
+      { name: 'Manu', age: 29 },
+      { name: 'Stephanie', age: 26 }
+    ],
+    otherState: 'some other value'
+  };
 
-  switchNameHandler = () => {
-    console.log('was clicked!');
-    console.log(this.state.persons, {name:'b',age:5});
-    this.setState( {
+  switchNameHandler = (newName) => {
+    // console.log('Was clicked!');
+    // DON'T DO THIS: this.state.persons[0].name = 'Maximilian';
+    this.setState({
       persons: [
-        ...this.state.persons, {name: 'Bob', age: 50}
+        { name: newName, age: 28 },
+        { name: 'Manu', age: 29 },
+        { name: 'Stephanie', age: 27 }
       ]
     });
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+        <p>This is really working!</p>
+        <button onClick={() => this.switchNameHandler('Ryan')}>Switch Name</button>
+        <Person
+          name={this.state.persons[0].name}
+          age={this.state.persons[0].age}
+        />
+        <Person
+          name={this.state.persons[1].name}
+          age={this.state.persons[1].age}
+          click={this.switchNameHandler.bind(this, 'Max')} // preferred syntax
+        >
+          My Hobbies: Racing
+        </Person>
+        <Person
+          name={this.state.persons[2].name}
+          age={this.state.persons[2].age}
+        />
+      </div>
+    );
+    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
-  */
+}
+
+export default App;
