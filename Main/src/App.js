@@ -78,7 +78,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
+        <p>Toggle persons that can be deleted or editted!</p>
         <button 
           style={style}
           onClick={this.togglePersonsHandler}>Toggle Persons</button>
