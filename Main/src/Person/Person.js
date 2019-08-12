@@ -5,6 +5,11 @@ import classes from './Person.css';
     Stateless is good practice.
 */
 const person = ( props ) => {
+    const rnd = Math.random();
+
+    if (rnd < 0.4) {
+        throw new Error('Something went wrong');
+    }
 
     return (
         <div className={classes.Person} >
