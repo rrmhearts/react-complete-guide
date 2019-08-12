@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.css'; /* with webpack changes, this is now scoped to this file */
 import Person from './Person/Person';
 
 /*
