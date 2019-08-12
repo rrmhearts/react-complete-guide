@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css'; /* with webpack changes, this is now scoped to this file */
-import Person from './Person/Person';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 /*
   Statefull components. Only have the ones you need.
@@ -48,52 +48,29 @@ class App extends Component {
   togglePersonsHandler = (event) => {
     const doesShow = this.state.showPersons;
     this.setState({showPersons: !doesShow});
-    
   }
 
   render() {
 
     let persons = null;
-    let btnClass = '';
 
     if (this.state.showPersons) {
-      persons = (
-        <div> 
-          {this.state.persons.map((person, index) => {
-            return <ErrorBoundary key={person.id}>
-                    <Person  // important, expected for lists
-                      name={person.name}
-                      age={person.age}
-                      click={() => this.deletePersonHandler(index)} // or bind
-                      changed={(event) => this.nameChangedHandler(event, person.id)} />
-                  </ErrorBoundary>
-          })}
-        </div>
-      );
-      btnClass = classes.Red;
-    }
-
-    //let classes = ['red', 'bold'].join(' '); // "red bold" class list
-    const assignedClasses = [];
-    if (this.state.persons.length <= 2) {
-      assignedClasses.push(classes.red); // class red
-    }
-    if (this.state.persons.length <= 1) {
-      assignedClasses.push(classes.bold); // red and bold
+      persons = <Persons 
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler}/>
     }
 
     return (
       <div className={classes.App}>
-        <h1>Hi, I'm a React App</h1>
-        <p className={assignedClasses.join(' ')}>Toggle persons that can be deleted or editted!</p>
-        <button
-          className={btnClass}
-          onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        <Cockpit 
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler}/>
         {persons}
         <p id="version">{React.version}</p>
       </div>
     );
-    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
