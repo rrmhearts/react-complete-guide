@@ -9,9 +9,9 @@
     text-align: center;
 }
 
-/*
+/* This works with the CSS modules */
 @media (min-width: 500px) {
     .Person {
         width: 450px;
     }
-} */
+} 

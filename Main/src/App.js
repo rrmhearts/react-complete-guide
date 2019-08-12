@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css'; /* with webpack changes, this is now scoped to this file */
+import classes from './App.css'; /* with webpack changes, this is now scoped to this file */
 import Person from './Person/Person';
 
 /*
@@ -52,16 +52,8 @@ class App extends Component {
 
   render() {
 
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid white',
-      padding: '8px',
-      cursor: 'pointer',
-    };
-
     let persons = null;
+    let btnClass = '';
 
     if (this.state.showPersons) {
       persons = (
@@ -75,28 +67,28 @@ class App extends Component {
           })}
         </div>
       );
-      style.backgroundColor = 'red';
+      btnClass = classes.Red;
     }
 
     //let classes = ['red', 'bold'].join(' '); // "red bold" class list
-    const classes = [];
+    const assignedClasses = [];
     if (this.state.persons.length <= 2) {
-      classes.push('red'); // class red
+      assignedClasses.push(classes.red); // class red
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold'); // red and bold
+      assignedClasses.push(classes.bold); // red and bold
     }
 
     return (
-        <div className="App">
-          <h1>Hi, I'm a React App</h1>
-          <p className={classes.join(' ')}>Toggle persons that can be deleted or editted!</p>
-          <button 
-            style={style}
-            onClick={this.togglePersonsHandler}>Toggle Persons</button>
-          {persons}
-          <p id="version">{React.version}</p>
-        </div>
+      <div className={classes.App}>
+        <h1>Hi, I'm a React App</h1>
+        <p className={assignedClasses.join(' ')}>Toggle persons that can be deleted or editted!</p>
+        <button
+          className={btnClass}
+          onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {persons}
+        <p id="version">{React.version}</p>
+      </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
