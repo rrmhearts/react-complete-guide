@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import Radium, { StyleRoot } from 'radium';
 
 /*
   Statefull components. Only have the ones you need.
@@ -53,11 +54,17 @@ class App extends Component {
   render() {
 
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
-      border: '1px solid blue',
+      border: '1px solid white',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      /* Radium supplied CSS */
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = null;
@@ -74,19 +81,37 @@ class App extends Component {
           })}
         </div>
       );
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'pink',
+        color: 'black'
+      };
     }
+
+    //let classes = ['red', 'bold'].join(' '); // "red bold" class list
+    const classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push('red'); // class red
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push('bold'); // red and bold
+    }
+
     return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p>Toggle persons that can be deleted or editted!</p>
-        <button 
-          style={style}
-          onClick={this.togglePersonsHandler}>Toggle Persons</button>
-        {persons}
-      </div>
+      <StyleRoot>
+        <div className="App">
+          <h1>Hi, I'm a React App</h1>
+          <p className={classes.join(' ')}>Toggle persons that can be deleted or editted!</p>
+          <button 
+            style={style}
+            onClick={this.togglePersonsHandler}>Toggle Persons</button>
+          {persons}
+          <p id="version">{React.version}</p>
+        </div>
+      </StyleRoot>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
-export default App;
+export default Radium(App); // radium wraps your component
