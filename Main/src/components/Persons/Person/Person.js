@@ -12,18 +12,22 @@ class Person extends Component {
         super(props)
         this.inputElementRef = React.createRef();
     }
+
+    // static means accessed from outside without having to instantiate.
+    // access context everywhere in class
+    static contextType = AuthContext;
+
     componentDidMount() {
         //document.querySelector('input').focus(); works on entire dom.
         //this.inputElement.focus(); // focuses on last input
         this.inputElementRef.current.focus();
+        console.log(this.context.authenticated);
     }
     render() {
         console.log("[Person.js] rendering...")
         return ( // Aux is wrapper without div. Returning one expression. ReactFragment replaces Aux.
             <React.Fragment> 
-                <AuthContext.Consumer>
-                    {(context) => context.authenticated ? <p>Authenticated!</p> : <p>Please login!</p>}
-                </AuthContext.Consumer>
+                {this.context.authenticated ? <p>Authenticated!</p> : <p>Please login!</p> }
                 <p onClick={this.props.click}>
                     I'm {this.props.name} and I am {this.props.age} years old!
                 </p>
