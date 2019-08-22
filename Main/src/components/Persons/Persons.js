@@ -1,30 +1,25 @@
-import React, {Component} from 'react';
+import React, { PureComponent } from 'react';
 import Person from './Person/Person';
 
-class Persons extends Component {
-    //static getDerivedStateFromProps(props, state) {
-    //    console.log('[Persons.js] getDerivedStateFromProps');
-    //    return state;
-    //}
+class Persons extends PureComponent {
 
-    // OLD 
-    //componentWillReceiveProps(props) {
-    //    console.log('[Persons.js] componentWillReceiveProps', props);
-    //}
-
-    // Persons gets rerendered when App.js changes, even if cockpit.
-    // here we can prevent this.
+    // PureComponent replaces shouldComponentUpdate with  all props check
+/*
     shouldComponentUpdate(nextProps, nextState) {
         console.log('[Persons.js] shouldComponentUpdate');
 
         // compares pointers, functional immutable objects...
-        if (nextProps.persons !== this.props.person) {
+        if (
+            nextProps.persons !== this.props.person || // checking one prop.
+            nextProps.changed !== this.props.changed ||
+            nextProps.clicked !== this.props.clicked   // but may want to check all like this
+            ) { 
             return true; // continue updating. 
         } else {
             return false; // should not continue.
         }
-    }
-
+    } // only use when needed.
+*/
     // Save state before update
     getSnapshotBeforeUpdate(prevProps, prevState) {
         console.log('[Persons.js] getSnapshotBeforeUpdate');
