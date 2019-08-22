@@ -21,7 +21,7 @@ class App extends Component {
       showPersons: false
     };
   }
-/* MORE MODERN syntax
+/* MORE MODERN syntax, replace constructor
   state = {
     persons: [
       { id: '0', name: 'Wendy', age: 1 },
@@ -33,15 +33,10 @@ class App extends Component {
   };
   */
 
-  // Rarely used but will stay.
+  // Rarely used but will stay. Create and Update lifecycles
   static getDerivedStateFromProps(props, state) {
     console.log('[App.js] getDerivedStateFromProps', props);
     return state;
-  }
-
-  // WILL BE REMOVED. Prepare state. Now can be done in getDerivedStateFromProps.
-  componentWillMount() {
-    console.log('[App.js] componentWillMount');
   }
 
   // Place to make http requests, fetch data, etc.
