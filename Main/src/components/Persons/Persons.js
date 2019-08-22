@@ -26,10 +26,6 @@ class Persons extends PureComponent {
         return { message: 'Snapshot' }; //return null;
     }
 
-    // OLD
-    //componentWillUpdate() {
-    //}
-
     // Done updating. use Snapshot. Useful.
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log('[Persons.js] componentDidUpdate');
@@ -43,6 +39,8 @@ class Persons extends PureComponent {
 
     render() {
         console.log('[Person.js] rendering...');
+
+        // array of adjacent elements allowed as long as key exists.
         return this.props.persons.map((person, index) => {
             return <Person key={person.id} // important, expected for lists
                 name={person.name}
