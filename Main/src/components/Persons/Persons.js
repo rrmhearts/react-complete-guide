@@ -12,9 +12,17 @@ class Persons extends Component {
     //    console.log('[Persons.js] componentWillReceiveProps', props);
     //}
 
+    // Persons gets rerendered when App.js changes, even if cockpit.
+    // here we can prevent this.
     shouldComponentUpdate(nextProps, nextState) {
         console.log('[Persons.js] shouldComponentUpdate');
-        return true; // continue updating. false, should not continue.
+
+        // compares pointers, functional immutable objects...
+        if (nextProps.persons !== this.props.person) {
+            return true; // continue updating. 
+        } else {
+            return false; // should not continue.
+        }
     }
 
     // Save state before update

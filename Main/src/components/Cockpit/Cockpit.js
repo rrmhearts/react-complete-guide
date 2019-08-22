@@ -13,7 +13,7 @@ const cockpit = (props) => {
     useEffect(() => {
       console.log('[Cockpit.js] useEffect');
       // http request...
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         alert('Saved data to cloud!');
       }, 1000);
     //}, [props.persons]); // only executes when this changes.
@@ -21,10 +21,9 @@ const cockpit = (props) => {
       // Runs before useEffect but after the first render cycle.
       // similar to componentWillUnmount
       return () => {
-        clearTimeout(timer); // remove timer on unmount.
         console.log('[Cockpit.js] cleanup work in useEffect');
       }
-    }, []); // only execute ONCE, no change dependencies.
+    }, []); // only execute ONCE, no change dependencies. mount and unmount []
 
     // can have multiple useEffects...
     useEffect(() => {

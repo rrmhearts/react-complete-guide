@@ -83,6 +83,7 @@ class App extends Component {
 
     person.name = event.target.value;
 
+    // making a copy of object. allows === compare of objects, different references.
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
