@@ -5,7 +5,7 @@ import classes from './Person.css';
     Stateless is good practice.
 */
 const person = ( props ) => {
-
+    console.log("[Person] rendering...")
     return (
         <div className={classes.Person} >
             <p onClick={props.click}>I'm {props.name} and I am {props.age} years old!</p>

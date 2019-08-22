@@ -7,15 +7,47 @@ import Cockpit from '../components/Cockpit/Cockpit';
   Statefull components. Only have the ones you need.
 */
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+    this.state = {
+      persons: [
+        { id: '0', name: 'Wendy', age: 1 },
+        { id: '1', name: 'Zoe', age: .2 },
+        { id: '2', name: 'Belles', age: 26 }
+      ],
+      otherState: 'some other value',
+      showPersons: false
+    };
+  }
+/* MORE MODERN syntax
   state = {
     persons: [
       { id: '0', name: 'Wendy', age: 1 },
       { id: '1', name: 'Zoe', age: .2 },
-      { id: '2', name: 'Stephanie', age: 26 }
+      { id: '2', name: 'Belles', age: 26 }
     ],
     otherState: 'some other value',
     showPersons: false
   };
+  */
+
+  // Rarely used but will stay.
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  // WILL BE REMOVED. Prepare state. Now can be done in getDerivedStateFromProps.
+  componentWillMount() {
+    console.log('[App.js] componentWillMount');
+  }
+
+  // Place to make http requests, fetch data, etc.
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
 
   deletePersonHandler = (personIndex) => {
     //const persons = this.state.persons.slice();
@@ -51,6 +83,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js] render');
 
     let persons = null;
 
@@ -64,11 +97,11 @@ class App extends Component {
     return (
       <div className={classes.App}>
         <Cockpit 
+          title={this.props.appTitle}
           showPersons={this.state.showPersons}
           persons={this.state.persons}
           clicked={this.togglePersonsHandler}/>
         {persons}
-        <p id="version">{React.version}</p>
       </div>
     );
   }
