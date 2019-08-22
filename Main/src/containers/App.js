@@ -39,9 +39,27 @@ class App extends Component {
     return state;
   }
 
+  //componentWillMount() {
+  //  console.log('[App.js] componentWillMount');
+  //}
+  
+  /* Important
+   * Hooks
+   * Below
+   */
   // Place to make http requests, fetch data, etc.
   componentDidMount() {
     console.log('[App.js] componentDidMount');
+  }
+  
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[App.js] shouldComponentUpdate');
+    //return false; // prevents update!!
+    return true; // allows update!!
+  }
+
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate');
   }
 
   deletePersonHandler = (personIndex) => {

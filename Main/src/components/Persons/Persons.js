@@ -27,7 +27,7 @@ class Persons extends Component {
     //componentWillUpdate() {
     //}
 
-    // Done updating. use Snapshot
+    // Done updating. use Snapshot. Useful.
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log('[Persons.js] componentDidUpdate');
         console.log(snapshot);
