@@ -13,13 +13,26 @@ const cockpit = (props) => {
     useEffect(() => {
       console.log('[Cockpit.js] useEffect');
       // http request...
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         alert('Saved data to cloud!');
       }, 1000);
     //}, [props.persons]); // only executes when this changes.
+
+      // Runs before useEffect but after the first render cycle.
+      // similar to componentWillUnmount
+      return () => {
+        clearTimeout(timer); // remove timer on unmount.
+        console.log('[Cockpit.js] cleanup work in useEffect');
+      }
     }, []); // only execute ONCE, no change dependencies.
 
     // can have multiple useEffects...
+    useEffect(() => {
+      console.log('[Cockpit.js] 2nd useEffect');
+      return () => {
+        console.log('[Cockpit.js] cleanup work in 2nd useEffect');
+      }; // this will happen when toggle person clicked. Cockpit changes
+    }); // any state change.
 
     const assignedClasses = [];
     let btnClass = '';
