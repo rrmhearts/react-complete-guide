@@ -21,7 +21,8 @@ class App extends Component {
       otherState: 'some other value',
       showPersons: false,
       showCockpit: true,
-      changeCounter: 0
+      changeCounter: 0,
+      authenticated: false
     };
   }
 /* MORE MODERN syntax, replace constructor
@@ -108,6 +109,11 @@ class App extends Component {
     this.setState({showPersons: !doesShow});
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+
+  }
+
   render() {
     console.log('[App.js] render');
 
@@ -117,7 +123,9 @@ class App extends Component {
       persons = <Persons 
           persons={this.state.persons}
           clicked={this.deletePersonHandler}
-          changed={this.nameChangedHandler}/>
+          changed={this.nameChangedHandler}
+          isAuthenticated={this.state.authenticated}
+        />
     }
 
     return (
@@ -130,7 +138,9 @@ class App extends Component {
             title={this.props.appTitle}
             showPersons={this.state.showPersons}
             personsLength={this.state.persons.length}
-            clicked={this.togglePersonsHandler}/>
+            clicked={this.togglePersonsHandler}
+            login={this.loginHandler}
+          />
         ) : null}
         {persons}
       </Aux>

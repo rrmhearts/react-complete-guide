@@ -42,11 +42,15 @@ class Persons extends PureComponent {
 
         // array of adjacent elements allowed as long as key exists.
         return this.props.persons.map((person, index) => {
-            return <Person key={person.id} // important, expected for lists
-                name={person.name}
-                age={person.age}
-                click={() => this.props.clicked(index)} // or bind
-                changed={(event) => this.props.changed(event, person.id)} />
+            return (
+                <Person key={person.id} // important, expected for lists
+                    name={person.name}
+                    age={person.age}
+                    click={() => this.props.clicked(index)} // or bind
+                    changed={(event) => this.props.changed(event, person.id)}
+                    isAuth={this.props.isAuthenticated}
+                />
+                );
             });
     }
 };
