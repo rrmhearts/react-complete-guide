@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import classes from './Cockpit.css';
 
 /* useEffect is the 2nd most important React hook
@@ -6,16 +6,14 @@ import classes from './Cockpit.css';
 */
 
 const cockpit = (props) => {
-
+  const toggleBtnRef = useRef(null); //React.createRef won't work in function.
   // useState() ... for props
-
-  // executes every render cycle. like componentDidUpdate + componentDidMount in one
+  // executes AFTER every render cycle. like componentDidUpdate + componentDidMount in one
     useEffect(() => {
       console.log('[Cockpit.js] useEffect');
+      toggleBtnRef.current.click();
+
       // http request...
-      setTimeout(() => {
-        alert('Saved data to cloud!');
-      }, 1000);
     //}, [props.persons]); // only executes when this changes.
 
       // Runs before useEffect but after the first render cycle.
@@ -52,8 +50,11 @@ const cockpit = (props) => {
             <h1>{props.title}</h1>
             <p className={assignedClasses.join(' ')}>Toggle persons that can be deleted or editted!</p>
             <button
-            className={btnClass}
-            onClick={props.clicked}>Toggle Persons</button>
+              ref={toggleBtnRef}
+              className={btnClass}
+              onClick={props.clicked}>
+              Toggle Persons
+            </button>
         </div>
     );
 };
