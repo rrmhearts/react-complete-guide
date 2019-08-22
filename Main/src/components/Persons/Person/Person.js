@@ -8,14 +8,14 @@ import Aux from '../../../hoc/Aux';
 class Person extends Component {
     render() {
         console.log("[Person.js] rendering...")
-        return ( // Aux is wrapper without div. Returning one expression.
-            <Aux> 
+        return ( // Aux is wrapper without div. Returning one expression. ReactFragment replaces Aux.
+            <React.Fragment> 
                 <p onClick={this.props.click}>
                     I'm {this.props.name} and I am {this.props.age} years old!
                 </p>
                 <p>{this.props.children}</p>
                 <input type="text" onChange={this.props.changed} value={this.props.name}/>
-            </Aux>
+            </React.Fragment>
         );
         /* [ // if you don't need wrapper structurally, avoid it.
                 <p key="i1" onClick={this.props.click}>

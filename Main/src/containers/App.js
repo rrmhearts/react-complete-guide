@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classes from './App.css'; /* with webpack changes, this is now scoped to this file */
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-
+import WithClass from '../hoc/WithClass';
 /*
   Statefull components. Only have the ones you need.
 */
@@ -110,7 +110,7 @@ class App extends Component {
     }
 
     return (
-      <div className={classes.App}>
+      <WithClass classes={classes.App}>
         <button onClick={() => {
           this.setState({showCockpit: !this.state.showCockpit})}
           }>Toggle Cockpit</button>
@@ -122,7 +122,7 @@ class App extends Component {
             clicked={this.togglePersonsHandler}/>
         ) : null}
         {persons}
-      </div>
+      </WithClass>
     );
   }
 }
