@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import classes from './App.css'; /* with webpack changes, this is now scoped to this file */
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-import WithClass from '../hoc/WithClass';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Aux';
 /*
   Statefull components. Only have the ones you need.
 */
@@ -19,7 +20,8 @@ class App extends Component {
       ],
       otherState: 'some other value',
       showPersons: false,
-      showCockpit: true
+      showCockpit: true,
+      changeCounter: 0
     };
   }
 /* MORE MODERN syntax, replace constructor
@@ -87,9 +89,18 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({
-      persons: persons
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1 // react guarentees previous state.
+      };
     });
+    /*
+    this.setState({ // good if not dependent on previous state.
+      persons: persons,
+      changeCounter: this.state.changeCounter + 1 // not guarenteed to be latest state
+    }); // schedules state update and re-render cycle. Not Immediate, but usually close.
+    */
   }
 
   togglePersonsHandler = (event) => {
@@ -110,7 +121,7 @@ class App extends Component {
     }
 
     return (
-      <WithClass classes={classes.App}>
+      <Aux>
         <button onClick={() => {
           this.setState({showCockpit: !this.state.showCockpit})}
           }>Toggle Cockpit</button>
@@ -122,9 +133,9 @@ class App extends Component {
             clicked={this.togglePersonsHandler}/>
         ) : null}
         {persons}
-      </WithClass>
+      </Aux>
     );
   }
 }
 
-export default App; // radium wraps your component
+export default withClass(App, classes.App); // HOC that applies classes to App..

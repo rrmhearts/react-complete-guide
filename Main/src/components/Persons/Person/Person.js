@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
 import classes from './Person.css';
-import Aux from '../../../hoc/Aux';
+import withClass from '../../../hoc/withClass';
+// import Aux from '../../../hoc/Aux';
 /*
     Stateless is good practice.
 */
@@ -17,15 +18,7 @@ class Person extends Component {
                 <input type="text" onChange={this.props.changed} value={this.props.name}/>
             </React.Fragment>
         );
-        /* [ // if you don't need wrapper structurally, avoid it.
-                <p key="i1" onClick={this.props.click}>
-                    I'm {this.props.name} and I am {this.props.age} years old!
-                </p>,
-                <p key="i2">{this.props.children}</p>,
-                <input key="i3" type="text" onChange={this.props.changed} value={this.props.name}/>
-        ] // array of elements instead of wrapper div.
-        */
     }
 };
 
-export default Person;
+export default withClass(Person, classes.Person);
