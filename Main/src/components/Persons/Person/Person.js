@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import classes from './Person.css';
 import withClass from '../../../hoc/withClass';
-// import Aux from '../../../hoc/Aux';
+import AuthContext from '../../../context/auth-context';
 /*
     Stateless is good practice.
 */
@@ -21,7 +21,9 @@ class Person extends Component {
         console.log("[Person.js] rendering...")
         return ( // Aux is wrapper without div. Returning one expression. ReactFragment replaces Aux.
             <React.Fragment> 
-                {this.props.isAuth ? <p>Authenticated!</p> : <p>Please login!</p>}
+                <AuthContext.Consumer>
+                    {(context) => context.authenticated ? <p>Authenticated!</p> : <p>Please login!</p>}
+                </AuthContext.Consumer>
                 <p onClick={this.props.click}>
                     I'm {this.props.name} and I am {this.props.age} years old!
                 </p>

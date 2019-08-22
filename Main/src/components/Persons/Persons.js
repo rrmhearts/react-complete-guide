@@ -56,3 +56,23 @@ class Persons extends PureComponent {
 };
 
 export default Persons;
+
+/*
+
+// AuthContext if in persons
+        return ( // takes a function as input
+        <AuthContext.Consumer> 
+            {(context) => this.props.persons.map((person, index) => {
+                return (
+                    <Person key={person.id} // important, expected for lists
+                        name={person.name}
+                        age={person.age}
+                        click={() => this.props.clicked(index)} // or bind
+                        changed={(event) => this.props.changed(event, person.id)}
+                        isAuth={this.props.isAuthenticated}
+                    />
+                );
+            })}
+        </AuthContext.Consumer>
+        );
+        */
