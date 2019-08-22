@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classes from './Cockpit.css';
 
+/* useEffect is the 2nd most important React hook
+ * next to useState. Not a lifecycle hook
+*/
 
 const cockpit = (props) => {
+
+  // useState() ... for props
+
+  // executes every render cycle. like componentDidUpdate + componentDidMount in one
+    useEffect(() => {
+      console.log('[Cockpit.js] useEffect');
+      // http request...
+      setTimeout(() => {
+        alert('Saved data to cloud!');
+      }, 1000);
+    //}, [props.persons]); // only executes when this changes.
+    }, []); // only execute ONCE, no change dependencies.
+
+    // can have multiple useEffects...
+
     const assignedClasses = [];
     let btnClass = '';
 
