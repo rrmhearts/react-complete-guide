@@ -1,4 +1,5 @@
 .SideDrawer {
+    margin-top: 0;
     position: fixed;
     width: 280px;
     max-width: 70%;
@@ -7,7 +8,7 @@
     top: 0;
     z-index: 200;
     background-color: white;
-    padding: 32px 16px;
+    padding: 0 0px;
     box-sizing: border-box;
     transition: transform 0.3s ease-out;
 }
@@ -29,4 +30,24 @@
 .Logo {
     height: 11%;
     margin-bottom: 32px;
+    padding: 0 16px;
+
+}
+
+nav {
+    padding: 0 16px;
+}
+
+.DrawerToggle {
+    margin: 0 0 10px 0px; /* top right bottom left */
+    background-color: #8F5C2C;
+    width: 40px;
+    height: 7%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 40px;
+    box-sizing: border-box;
+    cursor: pointer;
 }

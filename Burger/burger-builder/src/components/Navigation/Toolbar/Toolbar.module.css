@@ -21,6 +21,7 @@
     height: 80%;
 }
 
+/* Mobile device only. Turn off navigation bar*/
 @media (max-width: 499px) {
     .DesktopOnly {
         display: none;
