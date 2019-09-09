@@ -5,7 +5,11 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import Axios from 'axios';
 
-// Intercepter
+// Base URL for all paths.
+Axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
+Axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
+Axios.defaults.headers.post['Content-Type'] = 'application/json';
+// Interceptor
 Axios.interceptors.request.use(request => {
     console.log(request);
     // Intercept and edit request config.
