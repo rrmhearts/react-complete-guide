@@ -13,10 +13,6 @@ const INGREDIENT_PRICES = {
 };
 
 class BurgerBuilder extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {...}
-    // }
     state = {
         ingredients: {
             salad: 0,
@@ -90,7 +86,7 @@ class BurgerBuilder extends Component {
         for ( let key in disabledInfo ) {
             disabledInfo[key] = disabledInfo[key] <= 0
         }
-        // {salad: true, meat: false, ...}
+        // Modal does not to be rerendered unless shown
         return (
             <React.Fragment>
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
