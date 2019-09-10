@@ -6,7 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import Axios from 'axios';
 
 // Base URL for all paths.
-// Axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
+Axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 Axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 // Interceptor
