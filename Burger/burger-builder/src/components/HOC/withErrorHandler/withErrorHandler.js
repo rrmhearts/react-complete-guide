@@ -29,7 +29,6 @@ const withErrorHandler = (WrappedComponent, axios) => { // normally props are pa
 
         // remove interceptors when class goes away.
         componentWillUnmount() {
-            console.log('Will Unmount', this.reqInterceptor, this.resInterceptor);
             axios.interceptors.request.eject(this.reqInterceptor);
             axios.interceptors.request.eject(this.resInterceptor);
         }
