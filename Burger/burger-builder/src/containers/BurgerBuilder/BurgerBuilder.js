@@ -31,11 +31,13 @@ class BurgerBuilder extends Component {
         axios.get('https://react-myburger-4fb86.firebaseio.com/ingredients.json')
             .then(response => {
                 this.setState({ingredients: response.data})
+                this.updatePurchaseState(this.state.ingredients);
             })
             .catch(error => {
                 this.setState({error: true});
             });
     }
+
     updatePurchaseState (ingredients) {
         const sum = Object.keys( ingredients )
             .map( igKey => {
