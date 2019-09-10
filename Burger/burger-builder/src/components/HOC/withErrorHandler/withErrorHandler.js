@@ -15,14 +15,23 @@ const withErrorHandler = (WrappedComponent, axios) => { // normally props are pa
         }
 
         // Now this will be called before Burger Builder setup, so error handler will work..
-        componentWillMount () {
-            axios.interceptors.request.use(req => {
+        // This will be called every time this is wrapped around something. BAD!
+        // Don't want multiple interceptors that are not needed. Waste of memory..
+        componentWillMount() {
+            this.reqInterceptor = axios.interceptors.request.use(req => {
                 this.setState({error: null});
                 return req;
             })
-            axios.interceptors.response.use(res=>res, error => {
+            this.resInterceptor = axios.interceptors.response.use(res=>res, error => {
                 this.setState({error: error});
             });
+        }
+
+        // remove interceptors when class goes away.
+        componentWillUnmount() {
+            console.log('Will Unmount', this.reqInterceptor, this.resInterceptor);
+            axios.interceptors.request.eject(this.reqInterceptor);
+            axios.interceptors.request.eject(this.resInterceptor);
         }
 
         errorConfirmedHandler = () => {
