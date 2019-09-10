@@ -7,7 +7,8 @@ class Modal extends Component {
 
     // Also could use functional component with Memo.
     shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.show !== this.props.show;
+        return nextProps.show !== this.props.show || // Prevents update on children like loader
+            nextProps.children !== this.props.children; // fix
     }
 
     componentWillUpdate() {
