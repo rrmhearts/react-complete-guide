@@ -13,7 +13,9 @@ const withErrorHandler = (WrappedComponent, axios) => { // normally props are pa
         state = {
             error: null
         }
-        componentDidMount () {
+
+        // Now this will be called before Burger Builder setup, so error handler will work..
+        componentWillMount () {
             axios.interceptors.request.use(req => {
                 this.setState({error: null});
                 return req;
