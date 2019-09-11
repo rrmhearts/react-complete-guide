@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Link} from 'react-router-dom';
+import { Route, NavLink} from 'react-router-dom';
 
 import './Blog.css';
 import Posts from './Posts/Posts';
@@ -13,23 +13,20 @@ class Blog extends Component {
                 <header>
                     <nav>
                         <ul>
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to={{ /* advanced setup ex
+                            <li><NavLink to="/" exact>Home</NavLink></li>
+                            <li><NavLink to={
+                                /* advanced setup ex
                             Pathname is Always absolute path. 
-                            Use URL to create 'relative path' */
-                                pathname: this.props.match.url + '/new-post',
+                            Use URL in props.match.url to create 'relative path' */
+                            {
+                                pathname: '/new-post',
                                 hash: '#submit',
                                 searh: '?quick-submit=true'
-                            }}>New Post</Link></li>
+                            }}>New Post</NavLink></li>
                         </ul>
                     </nav>
                 </header>
-                {/*<Route path="/" exact render={() =>
-                    <Posts />
-                }/>
-                <Route path="/new-post" render={() => 
-                    <NewPost />
-                }/>*/}
+
                 <Route path="/" exact component={Posts} />
                 <Route path="/new-post" component={NewPost} />
 

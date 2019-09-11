@@ -21,3 +21,7 @@
     color: #fff;
     background-color: #d36810;
 }
+
+.Blog a.active {
+    color: #d36810;
+}
