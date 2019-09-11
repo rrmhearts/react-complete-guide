@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import axios from '../../../axios';
 import Post from '../../../components/Post/Post';
+import { Route, Link} from 'react-router-dom';
 
 import './Posts.css';
+import FullPost from '../FullPost/FullPost';
 
 class Posts extends Component {
     state = {
@@ -36,7 +38,8 @@ class Posts extends Component {
         // Navigation is about a stack of pages. you can push pop pages on the stack.
         // this.props.history.push({pathname: '/' + id});
         // manually add /id onto stack. Router will then load this page.
-        this.props.history.push('/' + id); // same as  above.
+        console.log(id);
+        //this.props.history.push('/posts/' + id); // same as  above.
 
     }
 
@@ -45,17 +48,21 @@ class Posts extends Component {
         if (!this.state.error) {
             posts = this.state.posts.map(post => {
                 return (
-                    <Post key={post.id}
-                            title={post.title} 
-                            author={post.author}
-                            clicked={() => this.postSelected(post.id)}/>
+                    <Link to={'/posts/'+post.id} key={post.id}>
+                        <Post   title={post.title} 
+                                author={post.author}
+                                clicked={() => this.postSelected(post.id)}/>
+                    </Link>
                 );
             }); // end map.
         }
         return (
-            <section className="Posts">
-               {posts}
-            </section>
+            <div>
+                <section className="Posts">
+                    {posts}
+                </section>
+                <Route path={this.props.match.url + '/:id'} exact component={FullPost} />
+            </div>
         );
     }
 }
