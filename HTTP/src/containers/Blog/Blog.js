@@ -13,7 +13,12 @@ class Blog extends Component {
                 <header>
                     <nav>
                         <ul>
-                            <li><NavLink to="/" exact>Home</NavLink></li>
+                            <li><NavLink to="/" exact
+                                activeClassName="my-active"
+                                activeStyle={{
+                                    color: '#fa923f',
+                                    textDecoration: 'underline'
+                                }}>Home</NavLink></li>
                             <li><NavLink to={
                                 /* advanced setup ex
                             Pathname is Always absolute path. 
