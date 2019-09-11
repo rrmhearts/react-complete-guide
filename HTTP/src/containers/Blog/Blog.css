@@ -25,3 +25,7 @@
 .Blog a.active {
     color: #d36810;
 }
+
+.Blog a.active:hover {
+    color: #fff;
+}

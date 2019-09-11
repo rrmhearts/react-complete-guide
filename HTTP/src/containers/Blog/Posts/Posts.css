@@ -5,3 +5,9 @@
     width: 80%;
     margin: auto;
 }
+
+.Posts a:hover,
+.Posts a:active {
+    background-color: #fff;
+}
+
