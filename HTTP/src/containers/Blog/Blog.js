@@ -29,6 +29,7 @@ class Blog extends Component {
                 <Switch>
                     <Route path="/new-post" component={NewPost} />
                     <Route path="/posts" component={Posts} />
+                    <Route path="/" component={Posts} />
                 </Switch>
                 {/* Parsed from top to bottom. :id can be ANYTHING. 
                     Should be last ordered. :id will still load on new-post
