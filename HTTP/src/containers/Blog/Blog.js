@@ -14,8 +14,10 @@ class Blog extends Component {
                     <nav>
                         <ul>
                             <li><Link to="/">Home</Link></li>
-                            <li><Link to={{ /* advanced setup ex */
-                                pathname: '/new-post',
+                            <li><Link to={{ /* advanced setup ex
+                            Pathname is Always absolute path. 
+                            Use URL to create 'relative path' */
+                                pathname: this.props.match.url + '/new-post',
                                 hash: '#submit',
                                 searh: '?quick-submit=true'
                             }}>New Post</Link></li>

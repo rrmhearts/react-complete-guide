@@ -9,13 +9,13 @@ class NewPost extends Component {
         content: '',
         author: 'Ryan M'
     }
+    /*
     componentDidMount() {
-        /* Props contains history, location, match and proto objects as well as
+         Props contains history, location, match and proto objects as well as
             passed props. Useful for many things.
-            */
         console.log(this.props);
-
-    }
+    }*/
+    
     postDataHandler = () => {
         const post = {
             title: this.state.title,

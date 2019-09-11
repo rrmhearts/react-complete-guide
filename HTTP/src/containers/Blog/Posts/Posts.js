@@ -14,7 +14,6 @@ class Posts extends Component {
         /* Props contains history, location, match and proto objects as well as
             passed props. Useful for many things.
             */
-        console.log(this.props);
         axios.get('/posts') // async return promise
             .then(response => {
                 const posts = response.data.slice(0,4);
