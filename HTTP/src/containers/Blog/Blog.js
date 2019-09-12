@@ -3,11 +3,17 @@ import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
 import './Blog.css';
 import Posts from './Posts/Posts';
-import NewPost from './NewPost/NewPost';
+import asyncComponent from '../../components/HOC/asyncComponent';
+
+//import NewPost from './NewPost/NewPost';
+const AsyncNewPost = asyncComponent(() => {
+    // Only importing when AsyncNewPost is called. Not default downloaded.
+    return import('./NewPost/NewPost');
+});
 
 class Blog extends Component {
     state = {
-        auth: false
+        auth: true
     }
     render () {
 
@@ -30,7 +36,9 @@ class Blog extends Component {
                     </nav>
                 </header>
                 <Switch>
-                    { this.state.auth ? <Route path="/new-post" component={NewPost} /> : null }
+                    {/* NewPost should only be loaded if user needs it. Don't download NewPost
+                        Idea of "Lazy Loading" OR "Code Splitting" Need React-Router v4 */}
+                    { this.state.auth ? <Route path="/new-post" component={AsyncNewPost} /> : null }
                     <Route path="/posts" component={Posts} />
                     <Route render={() => <h1>Not Found</h1>} />
                     {/*<Redirect from="/" to="/posts" />*/}
