@@ -11,12 +11,16 @@ class NewPost extends Component {
         author: 'Ryan M',
         submitted: false
     }
-    /*
+    
     componentDidMount() {
-         Props contains history, location, match and proto objects as well as
-            passed props. Useful for many things.
-        console.log(this.props);
-    }*/
+        // A Guard
+        // If unauth => this.history.history.replace('/posts');
+        /*
+           Props contains history, location, match and proto objects as well as
+              passed props. Useful for many things.
+        */
+       console.log(this.props);
+    }
     
     postDataHandler = () => {
         const post = {
@@ -35,13 +39,13 @@ class NewPost extends Component {
     }
 
     render () {
-        let redirect = null;
+        /* let redirect = null;
         if (this.state.submitted) {
             redirect = <Redirect to="/posts" />
-        }
+        } */
         return (
             <div className="NewPost">
-                { redirect }
+                { /*redirect*/ }
                 <h1>Add a Post</h1>
                 <label>Title</label>
                 <input type="text" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})} />
