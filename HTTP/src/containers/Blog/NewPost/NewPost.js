@@ -27,7 +27,10 @@ class NewPost extends Component {
         axios.post('/posts', post)
             .then(response => {
                 console.log(response);
-                this.setState( { submitted: true })
+                //this.props.history.push('/posts'); // back button goes to Add Post
+                this.props.history.replace('/posts'); // does not go back to Add Post
+
+                //this.setState( { submitted: true }) // does not go back to Add Post
             });
     }
 
