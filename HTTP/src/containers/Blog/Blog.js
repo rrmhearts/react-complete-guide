@@ -40,8 +40,8 @@ class Blog extends Component {
                         Idea of "Lazy Loading" OR "Code Splitting" Need React-Router v4 */}
                     { this.state.auth ? <Route path="/new-post" component={AsyncNewPost} /> : null }
                     <Route path="/posts" component={Posts} />
+                    <Redirect exact from="/" to="/posts" />
                     <Route render={() => <h1>Not Found</h1>} />
-                    {/*<Redirect from="/" to="/posts" />*/}
                     {/*<Route path="/" component={Posts} />*/}
                 </Switch>
                 {/* Parsed from top to bottom. :id can be ANYTHING. 
