@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import Course from '../Course/Course';
 import './Courses.css';
 
 class Courses extends Component {
@@ -10,11 +11,17 @@ class Courses extends Component {
             { id: 2, title: 'Vue - The Complete Guide' },
             { id: 3, title: 'PWA - The Complete Guide' }
         ],
-        currentCourse: null
     }
 
     render () {
 
+        let course = null;
+        if (this.props.location.params)
+        {
+            course = <Course title={this.props.location.params.title}
+                             id={this.props.location.params.id}/>
+        } 
+        console.log(this.props);
         return (
             <div>
                 <h1>Amazing Udemy Courses</h1>
@@ -23,7 +30,7 @@ class Courses extends Component {
                         this.state.courses.map( course => {
                             return <NavLink key={course.id}
                                             to={{
-                                                pathname: "/course",
+                                                pathname: "/courses",
                                                 params: {
                                                     title: course.title,
                                                     id: course.id
@@ -35,6 +42,7 @@ class Courses extends Component {
                         } )
                     }
                 </section>
+                {course}
 
             </div>
         );
