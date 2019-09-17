@@ -8,10 +8,21 @@ class Checkout extends Component {
         // Dummy data.
         ingredients: {
             salad: 1,
-            meat:1,
             cheese:1,
+            meat:1,
             bacon: 1
         }
+    }
+
+    componentDidMount() {
+        // URL Example http://localhost:3000/checkout?bacon=0&cheese=1&meat=1&salad=1
+        const query = new URLSearchParams(this.props.location.search);
+        const ingredients = {};
+        for (let param of query.entries()) {
+            // Array size 2 ["bacon", "0"]
+            ingredients[param[0]] = +param[1];
+        }
+        this.setState({ingredients: ingredients});
     }
 
     checkoutCancel = () => {
