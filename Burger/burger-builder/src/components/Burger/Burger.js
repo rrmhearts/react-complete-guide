@@ -1,8 +1,5 @@
 import React from 'react';
 
-// allows access to route info in props.
-import { withRouter } from 'react-router-dom';
-
 import classes from './Burger.module.css';
 import Ingredient from './Ingredient/Ingredient';
 
@@ -32,4 +29,4 @@ const burger = ( props ) => {
     );
 };
 
-export default withRouter(burger);
+export default burger;

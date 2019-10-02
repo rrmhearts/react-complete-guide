@@ -5,14 +5,12 @@ import Backdrop from '../Backdrop/Backdrop';
 
 class Modal extends Component {
 
-    // Also could use functional component with Memo.
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.show !== this.props.show || // Prevents update on children like loader
-            nextProps.children !== this.props.children; // fix
+    shouldComponentUpdate ( nextProps, nextState ) {
+        return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
     }
 
-    componentWillUpdate() {
-        console.log("[Modal] Will update.");
+    componentWillUpdate () {
+        console.log('[Modal] WillUpdate');
     }
 
     render () {
@@ -31,4 +29,5 @@ class Modal extends Component {
         );
     }
 }
+
 export default Modal;
