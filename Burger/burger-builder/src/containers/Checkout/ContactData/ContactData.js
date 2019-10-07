@@ -67,14 +67,20 @@ class ContactData extends Component {
         event.preventDefault();
         this.setState( { loading: true } );
         const formData = {};
+
+        // Create object of { field name : value, ... } w/o element data
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
+
         const order = {
+            // passed from url through Checkout component.
             ingredients: this.props.ingredients,
             price: this.props.price,
             orderData: formData
         }
+        
+        // Post order and redirect to /
         axios.post( '/orders.json', order )
             .then( response => {
                 this.setState( { loading: false } );
