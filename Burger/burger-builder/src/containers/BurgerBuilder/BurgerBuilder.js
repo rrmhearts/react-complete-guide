@@ -31,9 +31,11 @@ class BurgerBuilder extends Component {
 
     componentDidMount () {
         console.log(this.props);
+        // Ryan Custom
         axios.get('https://react-myburger-4fb86.firebaseio.com/ingredients.json')
             .then( response => {
                 this.setState( { ingredients: response.data } );
+                // Ryan Custom
                 this.updatePurchaseState(this.state.ingredients);
             } )
             .catch( error => {
