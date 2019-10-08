@@ -4,6 +4,7 @@ import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import classes from './SideDrawer.module.css';
 import Backdrop from '../../UI/Backdrop/Backdrop';
+import DrawerToggle from './DrawerToggle/DrawerToggle';
 
 const sideDrawer = ( props ) => {
     /* Conditionally apply CSS to side drawer. Display or hide. */
@@ -16,6 +17,9 @@ const sideDrawer = ( props ) => {
         <React.Fragment>
             <Backdrop show={props.open} clicked={props.closed}/>
             <div className={attachedClasses.join(' ')}>
+                <div className={classes.DrawerToggle}>
+                    <DrawerToggle clicked={props.drawerToggleClicked} />
+                </div>
                 <div className={classes.Logo}>
                     <Logo />
                 </div>
