@@ -6,6 +6,15 @@ import classes from './ContactData.module.css';
 import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 
+/*
+    Useful Resources & Links
+    Validate.js (you may import its functionality into your React projects): https://validatejs.org/
+    Get more ideas about potential validation approaches: https://react.rocks/tag/Validation
+    Alternatives to the manual approach taken in this course:
+
+    react-validation package: https://www.npmjs.com/package/react-validation
+    formsy-react package: https://github.com/christianalfoni/formsy-react
+*/
 class ContactData extends Component {
     state = {
         orderForm: {
@@ -15,7 +24,12 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your Name'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+            },
+                valid: false,
+                touched: false
             },
             street: {
                 elementType: 'input',
@@ -23,7 +37,12 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Street'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+            },
+                valid: false,
+                touched: false
             },
             zipCode: {
                 elementType: 'input',
@@ -31,7 +50,15 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'ZIP Code'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 5,
+                    isNumeric: true
+            },
+                valid: false,
+                touched: false
             },
             country: {
                 elementType: 'input',
@@ -39,7 +66,12 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Country'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+            },
+                valid: false,
+                touched: false
             },
             email: {
                 elementType: 'input',
@@ -47,7 +79,13 @@ class ContactData extends Component {
                     type: 'email',
                     placeholder: 'Your E-Mail'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true,
+                    isEmail: true
+            },
+                valid: false,
+                touched: false
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -57,30 +95,30 @@ class ContactData extends Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value: ''
+                value: 'fastest', // need a default value in case user doesn't change option.
+                validation: {}, // prevents failure on checking validity
+                valid: true // prevents undefined error in checking validity.
             }
         },
+        formIsValid: false,
         loading: false
     }
 
-    orderHandler = (event) => {
+    // ON Submit.
+    orderHandler = ( event ) => {
         event.preventDefault();
         this.setState( { loading: true } );
         const formData = {};
 
-        // Create object of { field name : value, ... } w/o element data
+        // Create form data, element identifier and value
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
-
         const order = {
-            // passed from url through Checkout component.
             ingredients: this.props.ingredients,
             price: this.props.price,
             orderData: formData
         }
-        
-        // Post order and redirect to /
         axios.post( '/orders.json', order )
             .then( response => {
                 this.setState( { loading: false } );
@@ -91,16 +129,67 @@ class ContactData extends Component {
             } );
     }
 
+    // Pass value and rules for checking.
+    checkValidity(value, rules) {
+        let isValid = true;
+
+        // If no rules, return true.
+        if (!rules) {
+            return true;
+        }
+        
+        // Required field.
+        if (rules.required) {
+            isValid = value.trim() !== '' && isValid;
+        }
+
+        // For zipcode required length. IF DEFINED
+        if (rules.minLength) {
+            isValid = value.length >= rules.minLength && isValid
+        }
+
+        if (rules.maxLength) {
+            isValid = value.length <= rules.maxLength && isValid
+        }
+
+        if (rules.isEmail) {
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        if (rules.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        return isValid;
+    }
+
     inputChangedHandler = (event, inputIdentifier) => {
         const updatedOrderForm = {
             ...this.state.orderForm
         };
+
+        // Deep copy of objects in objects. 
         const updatedFormElement = { 
             ...updatedOrderForm[inputIdentifier]
         };
-        updatedFormElement.value = event.target.value;
+        /* Don't change old data. Could cause errors if someone else is using the old data. */
+
+        // New data typed in for a specific input box, inputIdentifier
+        updatedFormElement.value = event.target.value; 
+        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.touched = true;
+
+        // Update outside object with updated inner object.
         updatedOrderForm[inputIdentifier] = updatedFormElement;
-        this.setState({orderForm: updatedOrderForm});
+        
+        // Ensure form is valid to enable submit button.
+        let formIsValid = true;
+        for (let inputIdentifier in updatedOrderForm) {
+            formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
+        }
+        this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
     }
 
     render () {
@@ -119,9 +208,12 @@ class ContactData extends Component {
                         elementType={formElement.config.elementType}
                         elementConfig={formElement.config.elementConfig}
                         value={formElement.config.value}
+                        invalid={!formElement.config.valid}
+                        shouldValidate={formElement.config.validation} // validation must exist!
+                        touched={formElement.config.touched} // touched when inputChangedHandler called!
                         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
                 ))}
-                <Button btnType="Success">ORDER</Button>
+                <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
             </form>
         );
         if ( this.state.loading ) {

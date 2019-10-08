@@ -11,13 +11,11 @@ class Checkout extends Component {
     }
 
     componentWillMount () {
-        console.log('[Checkout] willmount');
         const query = new URLSearchParams( this.props.location.search );
         const ingredients = {};
         let price = 0;
         for ( let param of query.entries() ) {
             // ['salad', '1']
-            console.log(param[0]);
             if (param[0] === 'price') {
                 price = param[1];
             } else {
@@ -28,13 +26,10 @@ class Checkout extends Component {
     }
 
     checkoutCancelledHandler = () => {
-        console.log('[Checkout] cancel');
         this.props.history.goBack();
     }
 
     checkoutContinuedHandler = () => {
-        console.log('[Checkout] continued');
-
         this.props.history.replace( '/checkout/contact-data' );
     }
 

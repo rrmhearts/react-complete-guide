@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Modal from '../../UI/Modal/Modal';
+import Modal from '../../components/UI/Modal/Modal';
 
 /*
     Component passed to this function.
