@@ -1,16 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
 
+import counterReducer from './store/reducers/counter';
+import resultReducer from './store/reducers/result';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import reducer from './store/reducer';
 
-// Store to hold state.
-const store = createStore(reducer);
+// Redux allows multiple reducers logically in code. Combines multiple files into the "one" reducer.
+const rootReducer = combineReducers({
+    ctr: counterReducer,
+    res: resultReducer
+});
 
-// Provider helps inject store into components.
+const store = createStore(rootReducer);
+
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 registerServiceWorker();
