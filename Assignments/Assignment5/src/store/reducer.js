@@ -1,6 +1,6 @@
 const initialState = {
     persons: []
-}
+};
 
 /* 
     Reducer, gets state and action, return updated state.
