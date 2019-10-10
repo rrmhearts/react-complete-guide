@@ -1,3 +1,9 @@
+
+## Tricks
+`find . -depth -execdir rename "s/.css/.module.css/" {} +`
+`grep -rl "import.*\.css" . | xargs sed -i 's/.css/.module.css/g'`
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
