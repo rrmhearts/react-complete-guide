@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Person from '../components/Person/Person';
 import AddPerson from '../components/AddPerson/AddPerson';
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 class Persons extends Component {
 
@@ -46,5 +46,5 @@ const dispatch_to_props = dispatch => {
     }
 }
 
-//export default connect(state_to_props, dispatch_to_props)(Persons);
-export default Persons;
+export default connect(state_to_props, dispatch_to_props)(Persons);
+//export default Persons;
