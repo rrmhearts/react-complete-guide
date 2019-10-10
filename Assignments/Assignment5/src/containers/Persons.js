@@ -1,50 +1,39 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Person from '../components/Person/Person';
 import AddPerson from '../components/AddPerson/AddPerson';
-import { connect } from 'react-redux';
+import * as actionTypes from '../store/actions';
 
 class Persons extends Component {
-
+    
     render () {
-        console.log(this.props);
         return (
             <div>
-                <AddPerson personAdded={this.props.personAddedHandler} />
-                {this.props.persons.map(person => (
+                <AddPerson personAdded={this.props.onAddedPerson} />
+                {this.props.prs.map(person => (
                     <Person 
                         key={person.id}
                         name={person.name} 
                         age={person.age} 
-                        clicked={() => this.props.personDeletedHandler(person.id)}/>
+                        clicked={() => this.props.onRemovedPerson(person.id)}/>
                 ))}
             </div>
         );
     }
 }
 
-const state_to_props = state => {
+const mapStateToProps = state => {
     return {
-        persons: state.persons
-    }
-}
+        prs: state.persons
+    };
+};
 
-const dispatch_to_props = dispatch => {
-    console.log('here');
-
+const mapDispatchToProps = dispatch => {
     return {
-        personAddedHandler: () => {
-            const newPerson = {
-                id: Math.random(), // not really unique but good enough here!
-                name: 'Max',
-                age: Math.floor( Math.random() * 40 )
-            }
-            
-            dispatch( { type: 'ADD', person: newPerson} );
-        },
-        personDeletedHandler: (personId) => dispatch( { type: 'DELETE', personId: personId} )
+        onAddedPerson: (name, age) => dispatch({type: actionTypes.ADD_PERSON, personData: {name: name, age: age}}),
+        onRemovedPerson: (id) => dispatch({type: actionTypes.REMOVE_PERSON, personId: id})
     }
-}
+};
 
-export default connect(state_to_props, dispatch_to_props)(Persons);
-//export default Persons;
+export default connect(mapStateToProps, mapDispatchToProps)(Persons);
