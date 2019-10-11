@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -6,15 +7,6 @@ import classes from './ContactData.module.css';
 import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 
-/*
-    Useful Resources & Links
-    Validate.js (you may import its functionality into your React projects): https://validatejs.org/
-    Get more ideas about potential validation approaches: https://react.rocks/tag/Validation
-    Alternatives to the manual approach taken in this course:
-
-    react-validation package: https://www.npmjs.com/package/react-validation
-    formsy-react package: https://github.com/christianalfoni/formsy-react
-*/
 class ContactData extends Component {
     state = {
         orderForm: {
@@ -27,7 +19,7 @@ class ContactData extends Component {
                 value: '',
                 validation: {
                     required: true
-            },
+                },
                 valid: false,
                 touched: false
             },
@@ -40,7 +32,7 @@ class ContactData extends Component {
                 value: '',
                 validation: {
                     required: true
-            },
+                },
                 valid: false,
                 touched: false
             },
@@ -56,7 +48,7 @@ class ContactData extends Component {
                     minLength: 5,
                     maxLength: 5,
                     isNumeric: true
-            },
+                },
                 valid: false,
                 touched: false
             },
@@ -69,7 +61,7 @@ class ContactData extends Component {
                 value: '',
                 validation: {
                     required: true
-            },
+                },
                 valid: false,
                 touched: false
             },
@@ -83,7 +75,7 @@ class ContactData extends Component {
                 validation: {
                     required: true,
                     isEmail: true
-            },
+                },
                 valid: false,
                 touched: false
             },
@@ -95,27 +87,24 @@ class ContactData extends Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value: 'fastest', // need a default value in case user doesn't change option.
-                validation: {}, // prevents failure on checking validity
-                valid: true // prevents undefined error in checking validity.
+                value: '',
+                validation: {},
+                valid: true
             }
         },
         formIsValid: false,
         loading: false
     }
 
-    // ON Submit.
     orderHandler = ( event ) => {
         event.preventDefault();
         this.setState( { loading: true } );
         const formData = {};
-
-        // Create form data, element identifier and value
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
         const order = {
-            ingredients: this.props.ingredients,
+            ingredients: this.props.ings,
             price: this.props.price,
             orderData: formData
         }
@@ -129,21 +118,16 @@ class ContactData extends Component {
             } );
     }
 
-    // Pass value and rules for checking.
     checkValidity(value, rules) {
         let isValid = true;
-
-        // If no rules, return true.
         if (!rules) {
             return true;
         }
         
-        // Required field.
         if (rules.required) {
             isValid = value.trim() !== '' && isValid;
         }
 
-        // For zipcode required length. IF DEFINED
         if (rules.minLength) {
             isValid = value.length >= rules.minLength && isValid
         }
@@ -169,22 +153,14 @@ class ContactData extends Component {
         const updatedOrderForm = {
             ...this.state.orderForm
         };
-
-        // Deep copy of objects in objects. 
         const updatedFormElement = { 
             ...updatedOrderForm[inputIdentifier]
         };
-        /* Don't change old data. Could cause errors if someone else is using the old data. */
-
-        // New data typed in for a specific input box, inputIdentifier
-        updatedFormElement.value = event.target.value; 
+        updatedFormElement.value = event.target.value;
         updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
-
-        // Update outside object with updated inner object.
         updatedOrderForm[inputIdentifier] = updatedFormElement;
         
-        // Ensure form is valid to enable submit button.
         let formIsValid = true;
         for (let inputIdentifier in updatedOrderForm) {
             formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
@@ -209,8 +185,8 @@ class ContactData extends Component {
                         elementConfig={formElement.config.elementConfig}
                         value={formElement.config.value}
                         invalid={!formElement.config.valid}
-                        shouldValidate={formElement.config.validation} // validation must exist!
-                        touched={formElement.config.touched} // touched when inputChangedHandler called!
+                        shouldValidate={formElement.config.validation}
+                        touched={formElement.config.touched}
                         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
                 ))}
                 <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
@@ -228,4 +204,11 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+    return {
+        ings: state.ingredients,
+        price: state.totalPrice
+    }
+};
+
+export default connect(mapStateToProps)(ContactData);

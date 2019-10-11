@@ -22,14 +22,18 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount () {
-        console.log(this.props);
-        // axios.get( 'https://react-myburger-4fb86.firebaseio.com/ingredients.json')
+        /*
+            This code must be changed to calling a dispatch function
+            to initialize the ingredients.
+        */
+
+        // axios.get('/ingredients.json')
         //     .then( response => {
-        //         this.setState( { ingredients: response.data } );
-        //         this.updatePurchaseState(this.state.ingredients);
+        //         /* setInitialIngredients() ==> dispatch to Redux*/
+        //         this.updatePurchaseState(this.props.ings);
         //     } )
         //     .catch( error => {
-        //         this.setState( { error: true } );
+        //         /* setError */
         //     } );
     }
 
