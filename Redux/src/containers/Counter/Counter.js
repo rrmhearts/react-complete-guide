@@ -11,14 +11,14 @@ class Counter extends Component {
             // State and dispatch functions are passed in through props.
             // Thanks to mapStateToProps and mapDispatchToProps
             <div>
-                <CounterOutput value={this.props.localCounter} />
+                <CounterOutput value={this.props.ctr} />
                 <CounterControl label="Increment" clicked={this.props.onIncrementCounter} />
                 <CounterControl label="Decrement" clicked={this.props.onDecrementCounter}  />
                 <CounterControl label="Add 10" clicked={this.props.onAddCounter}  />
                 <CounterControl label="Subtract 15" clicked={this.props.onSubtractCounter}  />
                 <hr />
                 <button onClick={/*Pass counter because don't have access to global state in reducer.*/
-                                   () => this.props.onStoreResult(this.props.localCounter)
+                                   () => this.props.onStoreResult(this.props.ctr)
                                 }>Store Result</button>
                 <ul>
                     {/*storedResults is from Redux state.*/
@@ -35,7 +35,7 @@ class Counter extends Component {
 const mapStateToProps = state => {
     return {
         // map "ctr" reducer's counter to ctr prop.
-        localCounter: state.ctr.counter, // state is nested by reducer keys
+        ctr: state.ctr.counter, // state is nested by reducer keys
         // Object "results" with id and value
         storedResults: state.res.results // state is nested by reducer keys
     }
