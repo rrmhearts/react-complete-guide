@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 
 import counterReducer from './store/reducers/counter';
 import resultReducer from './store/reducers/result';
@@ -40,7 +41,7 @@ const logger = store => {
 // Compose allows us to combine enhancers. Used with the Redux Chrome Extension!
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // fallback to native solution
 const store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(
-/*const store = createStore(rootReducer,*/ applyMiddleware(logger/*, ...*/) /*enhancer*/) );
+/*const store = createStore(rootReducer,*/ applyMiddleware(logger, thunk) /*enhancer*/) );
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 registerServiceWorker();

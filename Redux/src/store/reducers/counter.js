@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions';
+import * as actionTypes from '../actions/actionTypes';
 
 /*
     Our one reducer was broken into two. One for results and one for counter-related.
