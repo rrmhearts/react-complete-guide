@@ -15,6 +15,8 @@ export const purchaseBurgerFail = (error) => {
         error: error
     };
 };
+
+// Make Loading = True.
 export const purchaseBurgerStart = () => {
     return {
         type: actionTypes.PURCHASE_BURGER_START
@@ -23,14 +25,27 @@ export const purchaseBurgerStart = () => {
 
 export const purchaseBurger = (orderData) => {
     return dispatch => {
+        // Set loading to true.
         dispatch(purchaseBurgerStart());
+
+        // Async order.
         axios.post( '/orders.json', orderData )
             .then( response => {
-                dispatch (purchaseBurgerSuccess(response.data, orderData ));
+                // Set loading to false.
+                console.log("Post", response);
+                dispatch (purchaseBurgerSuccess(response.data.name, orderData ));
                 // this.props.history.push( '/' ); No access to router
             } )
             .catch( error => {
+                console.log("Post", error);
+                // Set loading to false.
                 dispatch (purchaseBurgerFail(error));
             } );
+    }
+}
+
+export const purchaseInit = () => {
+    return {
+        type: actionTypes.PURCHASE_INIT
     }
 }
