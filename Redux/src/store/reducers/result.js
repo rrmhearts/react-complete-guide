@@ -3,6 +3,8 @@ import { updateObject } from '../utility';
 
 /*
     Our one reducer was broken into two. One for results and one for counter-related.
+
+    Folder structure: central store? or multiple stores per component? maybe for large projects.
 */
 
 const initialState = {
