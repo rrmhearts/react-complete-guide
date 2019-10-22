@@ -26,16 +26,19 @@ export const authFail = (error) => {
 export const logout = () => {
     return {
         type: actionTypes.AUTH_LOGOUT
-    }
-}
+    };
+};
 
 export const checkAuthTimeout = (expirationTime) => {
+    console.log('Expiration time: ', expirationTime);
     return dispatch => {
+        console.log('CheckAuth Timeout');
         setTimeout(() => {
+            console.log('Login Timed out!');
             dispatch(logout());
         }, expirationTime * 1000 ); /* s to ms */
-    }
-}
+    };
+};
 
 export const auth = (email, password, isSignup) => {
     return dispatch => {
@@ -53,7 +56,7 @@ export const auth = (email, password, isSignup) => {
             .then(response => {
                 console.log(response);
                 dispatch(authSuccess(response.data.idToken, response.data.localId));
-                dispatch(checkAuthTimeout(response.data.exiresIn)); // expiration in seconds from firebase.
+                dispatch(checkAuthTimeout(response.data.expiresIn)); // expiration in seconds from firebase.
             })
             .catch(err => {
                 console.log(err);
