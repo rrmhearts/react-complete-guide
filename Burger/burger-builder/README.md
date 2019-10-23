@@ -33,6 +33,16 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+#### Deployment on Firebase
+The app can be found under Firebase "Hosting" section.
+[https://console.firebase.google.com/project/react-myburger-4fb86/hosting/main|BurgerBuilder management]
+
+```
+npm install -g firebase-tools
+firebase login
+firebase init
+firebase deploy
+```
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
