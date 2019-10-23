@@ -26,6 +26,10 @@ export const setIngredients = ( ingredients ) => {
     };
 };
 
+export const buildingBurger = () => {
+    return { type: actionTypes.SET_BUILDING };
+};
+
 export const fetchIngredientsFailed = () => {
     return {
         type: actionTypes.FETCH_INGREDIENTS_FAILED

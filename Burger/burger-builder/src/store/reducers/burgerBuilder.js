@@ -71,8 +71,8 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.ADD_INGREDIENT   : return addIngredient(state, action);
         case actionTypes.REMOVE_INGREDIENT: return removeIngredient(state, action);
         case actionTypes.SET_INGREDIENTS  : return setIngredients(state, action);
-        case actionTypes.FETCH_INGREDIENTS_FAILED:
-            return updateObject(state, { error: true });
+        case actionTypes.FETCH_INGREDIENTS_FAILED: return updateObject(state, { error: true });
+        case actionTypes.SET_BUILDING: return updateObject(state, { building: true });
         default:
             return state;
     }
