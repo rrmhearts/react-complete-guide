@@ -32,12 +32,10 @@ export const purchaseBurger = (orderData, token) => {
         axios.post( '/orders.json?auth=' + token, orderData )
             .then( response => {
                 // Set loading to false.
-                console.log("Post", response);
                 dispatch (purchaseBurgerSuccess(response.data.name, orderData ));
                 // this.props.history.push( '/' ); No access to router
             } )
             .catch( error => {
-                console.log("Post", error);
                 // Set loading to false.
                 dispatch (purchaseBurgerFail(error));
             } );

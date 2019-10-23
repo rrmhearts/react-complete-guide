@@ -16,7 +16,7 @@ const sideDrawer = ( props ) => {
         /* Backdrop shades the background dark when drawer is open */
         <React.Fragment>
             <Backdrop show={props.open} clicked={props.closed}/>
-            <div className={attachedClasses.join(' ')}>
+            <div className={attachedClasses.join(' ')} onClick={props.closed}>
                 <div className={classes.DrawerToggle}>
                     <DrawerToggle clicked={props.drawerToggleClicked} />
                 </div>
