@@ -8,3 +8,7 @@ Creates `bundle.js` by concatenating project files together. `App.js` along with
 ```
 npm install --save-dev webpack@3
 ```
+
+### Build
+For devopment build, use `npm start`.
+For production build, use `npm run build:prod`
