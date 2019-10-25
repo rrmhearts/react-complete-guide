@@ -1,0 +1,6 @@
+
+          window.__NEXT_REGISTER_PAGE('/', function() {
+            var comp = module.exports=webpackJsonp([4],{210:function(e,t,u){e.exports=u(211)},211:function(e,t,u){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var l=u(15),a=n(l),o=u(21),r=n(o),f=u(4),d=n(f),i=u(5),p=n(i),c=u(22),s=n(c),h=u(23),m=n(h),_=u(6),E=n(_),v=u(93),k=n(v),y=u(30),b=n(y),A=function(e){function t(){return(0,d.default)(this,t),(0,s.default)(this,(t.__proto__||(0,r.default)(t)).apply(this,arguments))}return(0,m.default)(t,e),(0,p.default)(t,[{key:"render",value:function(){return E.default.createElement("div",null,E.default.createElement("h1",null,"The Main Page of ",this.props.appName),E.default.createElement("p",null,"Go to"," ",E.default.createElement(k.default,{href:"/auth"},E.default.createElement("a",null,"Auth"))),E.default.createElement("button",{onClick:function(){return b.default.push("/auth")}},"Go to Auth"))}}],[{key:"getInitialProps",value:function(e){return new a.default(function(e,t){setTimeout(function(){e({appName:"Super App"})},5e3)})}}]),t}(_.Component);t.default=A}},[210]);
+            return { page: comp.default }
+          })
+        

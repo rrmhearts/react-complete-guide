@@ -5,7 +5,7 @@ import User from "../../components/User";
 const authIndexPage = (props) => (
   <div>
     <h1>The Auth Index Page - {props.appName}</h1>
-    <User name="Max" age={28} />
+    <User name="Ryan" age={30} />
   </div>
 );
 

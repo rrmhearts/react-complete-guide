@@ -7,7 +7,7 @@ const user = (props) => (
         <style jsx>{`
             div {
                 border: 1px solid #eee;
-                box-shadow: 0 2p 3px #ccc;
+                box-shadow: 0 3p 4px #ccc;
                 padding: 20px;
                 text-align: center;
             }
