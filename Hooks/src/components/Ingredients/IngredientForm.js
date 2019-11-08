@@ -3,13 +3,21 @@ import React, { useState } from 'react';
 import Card from '../UI/Card';
 import './IngredientForm.css';
 
+/*
+ # 2 rules
+ * must use in functional componenets or hooks
+ * must use on root level in component. No in nested functions.
+    * NO nested in if or loops either.
+ */
+
 const IngredientForm = React.memo(props => {
-  // Set state, returns Getter and Setter, survives re-renders
-  const [inputState, setInputState] = useState({ title: '', amount: '' });
+  /* doesn't have to be an object, and you can have multiple states. */
+  const [enteredTitle, setEnteredTitle] = useState('');   /* one for title */
+  const [enteredAmount, setEnteredAmount] = useState(''); /* one for amount */
 
   const submitHandler = event => {
     event.preventDefault();
-    // ...
+    props.onAddIngredient({ title: enteredTitle, amount: enteredAmount });
   };
 
   return (
@@ -21,15 +29,9 @@ const IngredientForm = React.memo(props => {
             <input
               type="text"
               id="title"
-              value={inputState.title} /*state object*/
+              value={enteredTitle}
               onChange={event => {
-                /* react reuses event states. Prevent reusing same event object */
-                const newTitle = event.target.value;
-                /* Setter example. Callback sets new values */
-                setInputState(prevInputState => ({  /* pass latest state to ensure this gets it. */
-                  title: newTitle, /* new event for each closure. WEIRD */
-                  amount: prevInputState.amount /* must use both. replaces previous object; is closure */
-                }));
+                setEnteredTitle(event.target.value); /* no longer have closure problem nor have to update amount */
               }}
             />
           </div>
@@ -38,13 +40,9 @@ const IngredientForm = React.memo(props => {
             <input
               type="number"
               id="amount"
-              value={inputState.amount}
+              value={enteredAmount}
               onChange={event => {
-                const newAmount = event.target.value;
-                setInputState(prevInputState => ({
-                  amount: newAmount,
-                  title: prevInputState.title
-                }));
+                setEnteredAmount(event.target.value); /* no longer have closure problem nor have to update title */
               }}
             />
           </div>
