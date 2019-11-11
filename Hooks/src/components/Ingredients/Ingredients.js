@@ -1,28 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
 import Search from './Search';
 
 const Ingredients = () => {
-  // can also use notation `function Ingredients () {}`
-
-  /* list of ingredients */
   const [userIngredients, setUserIngredients] = useState([]);
 
-  /* form can add an ingredient to the list */
+  /*
+    Manage SIDE EFFECTS like HTTP requests. Using to fetch data.
+    Occurs every render cycle. AFTER every render cycle.
+
+    Fetch without use effect will delay re-render.
+  */
+  useEffect(() => {
+
+    // Get ingredients
+    fetch('https://react-hooks-248c2.firebaseio.com/ingredients.json')
+      .then(response => response.json())
+      .then(responseData => {
+        const loadedIngredients = [];
+        // for each item in database.
+        for (const key in responseData) {
+          loadedIngredients.push({
+            id: key, /* unique id from firebase */
+            title: responseData[key].title, /* access json at key */
+            amount: responseData[key].amount
+          });
+        }
+        // AFTER request, update state. Have to render, infinite loop.
+        // Must use inside useEffect WITH 2nd argument.
+        setUserIngredients(loadedIngredients);
+      });
+  }, []); // only if 2nd arg CHANGES DO YOU RERENDER. Empty array, runs once acts like componentDidMount.
+
+  useEffect(() => {
+    console.log('RENDERING INGREDIENTS', userIngredients);
+  }, [userIngredients]); // specify dependencies. will onlly run when userIngredients CHANGES.
+
+  /* Async call, but delays rerender to fetch data.*/
   const addIngredientHandler = ingredient => {
-    setUserIngredients(prevIngredients => [
-      ...prevIngredients, /* prevIngrdients list */
-      { id: Math.random().toString(), ...ingredient } /* ingredient is an object */
-    ]);
+
+    // Browser Function to make HTTP request.
+    fetch('https://react-hooks-248c2.firebaseio.com/ingredients.json', {
+      method: 'POST', // by default makes GET request. set to POST to post ingredients.
+      body: JSON.stringify(ingredient),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => {
+        return response.json(); // returns promise
+      })
+      .then(responseData => { // process promise ^^ returned
+        setUserIngredients(prevIngredients => [
+          ...prevIngredients,
+          { id: responseData.name /*firebase property uniq*/, ...ingredient }
+        ]);
+      });
   };
 
-  const removeIngredientHandler = ingId => {
-    setUserIngredients(prevIngredients => 
-      prevIngredients.filter(ing => {
-        return ing.id !== ingId;
-      })
+  const removeIngredientHandler = ingredientId => {
+    setUserIngredients(prevIngredients =>
+      prevIngredients.filter(ingredient => ingredient.id !== ingredientId)
     );
   };
 
@@ -32,7 +70,10 @@ const Ingredients = () => {
 
       <section>
         <Search />
-        <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler} />
+        <IngredientList
+          ingredients={userIngredients}
+          onRemoveItem={removeIngredientHandler}
+        />
       </section>
     </div>
   );

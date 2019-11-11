@@ -3,17 +3,9 @@ import React, { useState } from 'react';
 import Card from '../UI/Card';
 import './IngredientForm.css';
 
-/*
- # 2 rules
- * must use in functional componenets or hooks
- * must use on root level in component. No in nested functions.
-    * NO nested in if or loops either.
- */
-
 const IngredientForm = React.memo(props => {
-  /* doesn't have to be an object, and you can have multiple states. */
-  const [enteredTitle, setEnteredTitle] = useState('');   /* one for title */
-  const [enteredAmount, setEnteredAmount] = useState(''); /* one for amount */
+  const [enteredTitle, setEnteredTitle] = useState('');
+  const [enteredAmount, setEnteredAmount] = useState('');
 
   const submitHandler = event => {
     event.preventDefault();
@@ -31,7 +23,7 @@ const IngredientForm = React.memo(props => {
               id="title"
               value={enteredTitle}
               onChange={event => {
-                setEnteredTitle(event.target.value); /* no longer have closure problem nor have to update amount */
+                setEnteredTitle(event.target.value);
               }}
             />
           </div>
@@ -42,7 +34,7 @@ const IngredientForm = React.memo(props => {
               id="amount"
               value={enteredAmount}
               onChange={event => {
-                setEnteredAmount(event.target.value); /* no longer have closure problem nor have to update title */
+                setEnteredAmount(event.target.value);
               }}
             />
           </div>
