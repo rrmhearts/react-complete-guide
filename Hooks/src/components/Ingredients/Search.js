@@ -18,7 +18,7 @@ const Search = React.memo(props => {
     const query =
       enteredFilter.length === 0
         ? ''
-        : `?orderBy="title"&equalTo="${enteredFilter}"`; // sort by title, filter by enteredFilter
+        : `?orderBy="title"&startAt="${enteredFilter}"&endAt="${enteredFilter+"\uf8ff"}"`; // sort by title, filter by enteredFilter
     // make call, requires firebase rules change
     fetch('https://react-hooks-248c2.firebaseio.com/ingredients.json' + query)
       .then(response => response.json())
