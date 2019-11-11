@@ -19,11 +19,11 @@ const Ingredients = () => {
   };
 
   const removeIngredientHandler = ingId => {
-    setUserIngredients(prevIngredients => {
-      return prevIngredients.filter(ing => {
+    setUserIngredients(prevIngredients => 
+      prevIngredients.filter(ing => {
         return ing.id !== ingId;
-      });
-    });
+      })
+    );
   };
 
   return (
