@@ -6,17 +6,15 @@ import './Search.css';
 const Search = React.memo(props => {
   const { onLoadIngredients } = props;
   const [enteredFilter, setEnteredFilter] = useState('');
-  const inputRef = useRef(); // creates reference to a dom element.
+  const inputRef = useRef();
 
   useEffect(() => {
-    // wait until user stops typing before checking the server.
     const timer = setTimeout(() => {
-      if (enteredFilter /*value when timer set*/=== inputRef.current.value /*current value, current is useRef object*/) {
+      if (enteredFilter === inputRef.current.value) {
         const query =
           enteredFilter.length === 0 
             ? ''
             : `?orderBy="title"&startAt="${enteredFilter}"&endAt="${enteredFilter+"\uf8ff"}"`; // sort by title, filter by enteredFilter
-        // make call, requires firebase rules change
         fetch('https://react-hooks-248c2.firebaseio.com/ingredients.json' + query)
           .then(response => response.json())
           .then(responseData => {
@@ -30,14 +28,12 @@ const Search = React.memo(props => {
             }
             onLoadIngredients(loadedIngredients);
           });
-      } // if enterfilter is inputRef value (value hasn't changed)
-    }, 500); // wait 500 ms of pause typing before checking server.
+      }
+    }, 500);
     return () => {
-      // this return must be a function. it is clean up that occurs before the NEXT time useEffect runs.
-      // clear previous timer
-      clearTimeout(timer); // before new timer is applied. ensures 1 timer.
+      clearTimeout(timer);
     };
-  }, [enteredFilter, onLoadIngredients, inputRef]); // depency on changing inputRef
+  }, [enteredFilter, onLoadIngredients, inputRef]);
 
   return (
     <section className="search">
@@ -45,7 +41,7 @@ const Search = React.memo(props => {
         <div className="search-input">
           <label>Filter by Title</label>
           <input
-            ref={inputRef} /* assign ref to this dom element*/
+            ref={inputRef}
             type="text"
             value={enteredFilter}
             onChange={event => setEnteredFilter(event.target.value)}

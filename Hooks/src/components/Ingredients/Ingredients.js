@@ -1,16 +1,11 @@
-import React, { useReducer, useEffect, useCallback } from 'react';
+import React, { useReducer, useEffect, useCallback, useMemo } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
 import ErrorModal from '../UI/ErrorModal';
 import Search from './Search';
 
-/*
-  Outside component. States that interact with each other.
-  Updating logic is all in one place! Used for complex state
-  where interdependent, want to see it all in one place.
-*/
-const ingredientReducer = (currentIngredients /*state*/, action /*action for update*/) => {
+const ingredientReducer = (currentIngredients, action) => {
   switch (action.type) {
     case 'SET':
       return action.ingredients;
@@ -22,10 +17,7 @@ const ingredientReducer = (currentIngredients /*state*/, action /*action for upd
       throw new Error('Should not get there!');
   }
 };
-/*
-  Multiple connected states that occur together (like in an error).
-  Bundle states together under "actions".
-*/
+
 const httpReducer = (curHttpState, action) => {
   switch (action.type) {
     case 'SEND':
@@ -42,9 +34,6 @@ const httpReducer = (curHttpState, action) => {
 };
 
 const Ingredients = () => {
-  /* useReducer takes reducer and initial state and provides state, and updater function.
-  Updates data by "calls" by an action and data..
-  */
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
   const [httpState, dispatchHttp] = useReducer(httpReducer, {
     loading: false,
@@ -60,10 +49,11 @@ const Ingredients = () => {
 
   const filteredIngredientsHandler = useCallback(filteredIngredients => {
     // setUserIngredients(filteredIngredients);
-    dispatch({ type: 'SET', ingredients: filteredIngredients }/*action*/);
+    dispatch({ type: 'SET', ingredients: filteredIngredients });
   }, []);
 
-  const addIngredientHandler = ingredient => {
+  /* useCallback prevents function from being redefined every cycle. */
+  const addIngredientHandler = useCallback(ingredient => {
     dispatchHttp({ type: 'SEND' });
     fetch('https://react-hooks-248c2.firebaseio.com/ingredients.json', {
       method: 'POST',
@@ -75,7 +65,6 @@ const Ingredients = () => {
         return response.json();
       })
       .then(responseData => {
-        /* State dependency! How do we fix? */
         // setUserIngredients(prevIngredients => [
         //   ...prevIngredients,
         //   { id: responseData.name, ...ingredient }
@@ -85,9 +74,9 @@ const Ingredients = () => {
           ingredient: { id: responseData.name, ...ingredient }
         });
       });
-  };
+  }, []); /*no dependencies. SHOULD never be rebuilt. */
 
-  const removeIngredientHandler = ingredientId => {
+  const removeIngredientHandler = useCallback(ingredientId => {
     dispatchHttp({ type: 'SEND' });
     fetch(
       `https://react-hooks-248c2.firebaseio.com/ingredients/${ingredientId}.json`,
@@ -105,11 +94,25 @@ const Ingredients = () => {
       .catch(error => {
         dispatchHttp({ type: 'ERROR', errorMessage: 'Something went wrong!' });
       });
-  };
+  }, []);
 
-  const clearError = () => {
+  const clearError = useCallback(() => {
     dispatchHttp({ type: 'CLEAR' });
-  };
+  }, []);
+
+  /* useMemo is a replacement of React.Memo.
+     useCallback prevents reusing fucntions
+     useMemo prevents reusing values.
+   */
+  const ingredientList = useMemo(() => {
+    return (
+      // This VALUE is memorized
+      <IngredientList
+        ingredients={userIngredients}
+        onRemoveItem={removeIngredientHandler}
+      />
+    );
+  }, [userIngredients, removeIngredientHandler]); // recreate on these changing
 
   return (
     <div className="App">
@@ -124,10 +127,7 @@ const Ingredients = () => {
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler} />
-        <IngredientList
-          ingredients={userIngredients}
-          onRemoveItem={removeIngredientHandler}
-        />
+        {ingredientList}
       </section>
     </div>
   );

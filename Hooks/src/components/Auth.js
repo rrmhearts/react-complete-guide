@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Card from './UI/Card';
+import { AuthContext } from '../context/auth-context';
 import './Auth.css';
 
 const Auth = props => {
-  const loginHandler = () => {};
+
+  /* Context is like the Redux Store*/
+  const authContext = useContext(AuthContext);
+
+  const loginHandler = () => {
+    authContext.login();
+  };
 
   return (
     <div className="auth">
