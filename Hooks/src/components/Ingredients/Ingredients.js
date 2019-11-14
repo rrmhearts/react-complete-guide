@@ -6,6 +6,7 @@ import ErrorModal from '../UI/ErrorModal';
 import Search from './Search';
 import useHttp from '../../hooks/http';
 
+// Reducer to set up useReducer for userIngredients and dispatch.
 const ingredientReducer = (currentIngredients, action) => {
   switch (action.type) {
     case 'SET':
@@ -27,29 +28,34 @@ const Ingredients = () => {
     data,
     sendRequest,
     reqExtra,
-    reqIdentifer
+    reqIdentifer,
+    clear
   } = useHttp();
 
-  // const [userIngredients, setUserIngredients] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState();
-
+  /*
+   Side effect, add or delete from database
+   Updates local state AFTER database updates...
+   */
   useEffect(() => {
     if (!isLoading && !error && reqIdentifer === 'REMOVE_INGREDIENT') {
+      // Dispatch is returned form useReducer above (line 24);
       dispatch({ type: 'DELETE', id: reqExtra });
     } else if (!isLoading && !error && reqIdentifer === 'ADD_INGREDIENT') {
+      // The object passed sets the 2nd argument in the reducer! ACTION!
       dispatch({
-        type: 'ADD',
-        ingredient: { id: data.name, ...reqExtra }
+        type: 'ADD', // action.type
+        ingredient: { id: data.name, ...reqExtra } //action.ingredient
       });
     }
-  }, [data, reqExtra, reqIdentifer, isLoading, error]);
+  }, [data, reqExtra, reqIdentifer, isLoading, error]); // when the HTTP HOOK is updated!
 
   const filteredIngredientsHandler = useCallback(filteredIngredients => {
-    // setUserIngredients(filteredIngredients);
     dispatch({ type: 'SET', ingredients: filteredIngredients });
   }, []);
 
+  /* Send request here, Handled in useEffect!
+     UI calls this function!
+   */
   const addIngredientHandler = useCallback(ingredient => {
     sendRequest(
       'https://react-hooks-248c2.firebaseio.com/ingredients.json',
@@ -57,29 +63,12 @@ const Ingredients = () => {
       JSON.stringify(ingredient),
       ingredient,
       'ADD_INGREDIENT'
-    );
-    // dispatchHttp({ type: 'SEND' });
-    // fetch('https://react-hooks-update.firebaseio.com/ingredients.json', {
-    //   method: 'POST',
-    //   body: JSON.stringify(ingredient),
-    //   headers: { 'Content-Type': 'application/json' }
-    // })
-    //   .then(response => {
-    //     dispatchHttp({ type: 'RESPONSE' });
-    //     return response.json();
-    //   })
-    //   .then(responseData => {
-    //     // setUserIngredients(prevIngredients => [
-    //     //   ...prevIngredients,
-    //     //   { id: responseData.name, ...ingredient }
-    //     // ]);
-    //     dispatch({
-    //       type: 'ADD',
-    //       ingredient: { id: responseData.name, ...ingredient }
-    //     });
-    //   });
-  }, []);
+    ); // This will update the useHTTP hook!
+  }, [sendRequest]);
 
+  /* Send request here, Handled in useEffect!
+     UI calls this function!
+   */
   const removeIngredientHandler = useCallback(
     ingredientId => {
       sendRequest(
@@ -88,14 +77,10 @@ const Ingredients = () => {
         null,
         ingredientId,
         'REMOVE_INGREDIENT'
-      );
+      ); // update useHTTP hook, which in turn will cause useEffect (above) to be updated.
     },
     [sendRequest]
   );
-
-  const clearError = useCallback(() => {
-    // dispatchHttp({ type: 'CLEAR' });
-  }, []);
 
   const ingredientList = useMemo(() => {
     return (
@@ -108,7 +93,7 @@ const Ingredients = () => {
 
   return (
     <div className="App">
-      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
 
       <IngredientForm
         onAddIngredient={addIngredientHandler}
