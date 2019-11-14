@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 
-/*
-  Context provider.. provides a component. with value prop {isAuth, login}
-*/
 export const AuthContext = React.createContext({
   isAuth: false,
   login: () => {}

@@ -5,8 +5,6 @@ import { AuthContext } from '../context/auth-context';
 import './Auth.css';
 
 const Auth = props => {
-
-  /* Context is like the Redux Store*/
   const authContext = useContext(AuthContext);
 
   const loginHandler = () => {
