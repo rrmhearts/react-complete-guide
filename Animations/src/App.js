@@ -11,10 +11,12 @@ class App extends Component {
   }
 
   showModal = () => {
+    console.log('Modal Open')
     this.setState({modalIsOpen: true});
   }
 
   closeModal = () => {
+    console.log('Modal Close');
     this.setState({modalIsOpen: false});
   }
 
