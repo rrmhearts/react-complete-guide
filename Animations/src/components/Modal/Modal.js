@@ -15,7 +15,7 @@ const modal = props => {
         unmountOnExit 
         in={props.show} 
         timeout={animationTiming}
-        classNames={/*fade-slide*/{ /**Special object to define which classes should be added to wrapped element */
+        classNames={{
             enter: '',
             enterActive: 'ModalOpen',
             exit: '',
