@@ -1,44 +1,33 @@
 import React from "react";
-import Transition from "react-transition-group/Transition";
+import CSSTransition from "react-transition-group/CSSTransition";
 
 import "./Modal.css";
 
 const animationTiming = {
-    enter: 500,
+    enter: 400,
     exit: 1000
 };
 
 const modal = props => {
   return (
-    /* Use Transition HOC in order to see closing animations.
-      For detailed information, see Transition documentation.
-      Will unmount and unmount itself from the DOM using the "in" flag.
-    */
-    <Transition 
+    <CSSTransition 
         mountOnEnter 
         unmountOnExit 
-        in={props.show /* triggers setup Modal or close Modal */} 
-        timeout={animationTiming /*can be a number instead of object */}>
-      {state => {
-        /* classes to apply to modal at different stages of component.
-          state of Transition HOC is used to animate.
-        */
-        const cssClasses = [
-          "Modal",
-          state === "entering"
-            ? "ModalOpen"
-            : state === "exiting" ? "ModalClosed" : null
-        ];
-        return ( /* Classes applied for CSS animations */
-          <div className={cssClasses.join(" ")}>
+        in={props.show} 
+        timeout={animationTiming}
+        classNames={/*fade-slide*/{ /**Special object to define which classes should be added to wrapped element */
+            enter: '',
+            enterActive: 'ModalOpen',
+            exit: '',
+            exitActive: 'ModalClosed'
+        }}>
+          <div className="Modal">
             <h1>A Modal</h1>
             <button className="Button" onClick={props.closed}>
               Dismiss
             </button>
           </div>
-        );
-      }}
-    </Transition>
+    </CSSTransition>
   );
 };
 
